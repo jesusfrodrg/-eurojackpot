@@ -1,1 +1,38 @@
+name: Actualizar resultados Eurojackpot
 
+on:
+  schedule:
+    - cron: '0 21 * * 2'
+    - cron: '0 21 * * 5'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install node-fetch
+
+      - name: Obtener resultados y generar data.json
+        run: node fetch-results.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Guardar data.json en el repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data.json
+          git diff --cached --quiet || git commit -m "Actualizar resultados Eurojackpot"
+          git push
