@@ -14,213 +14,66 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --red:#C0001A;
-  --red-dim:#8a0012;
-  --gold:#f5b800;
-  --gold-dim:#c49000;
-  --bg:#0a0a0a;
-  --bg2:#141414;
-  --bg3:#1e1e1e;
-  --border:#2a2a2a;
-  --text:#f0f0f0;
-  --muted:#888;
-  --safe-top:env(safe-area-inset-top,0px);
-  --safe-bot:env(safe-area-inset-bottom,0px);
+  --red:#C0001A;--red-dim:#8a0012;--gold:#f5b800;--gold-dim:#c49000;
+  --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;--border:#2a2a2a;
+  --text:#f0f0f0;--muted:#888;
+  --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
 }
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100dvh;
-  overflow-x:hidden;
-}
-
-/* Header */
-.header{
-  padding:calc(var(--safe-top) + 18px) 20px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:var(--bg);
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:0.5px solid var(--border);
-}
-.logo{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:26px;
-  letter-spacing:2px;
-  color:var(--text);
-  line-height:1;
-}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+.header{padding:calc(var(--safe-top) + 18px) 20px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:100;border-bottom:0.5px solid var(--border)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--text);line-height:1}
 .logo span{color:var(--red)}
-.bote-pill{
-  background:var(--bg3);
-  border:0.5px solid var(--border);
-  border-radius:20px;
-  padding:5px 12px;
-  font-size:12px;
-  font-weight:500;
-  color:var(--gold);
-}
-
-/* Nav tabs */
-.nav{
-  display:flex;
-  background:var(--bg2);
-  border-bottom:0.5px solid var(--border);
-}
-.nav-btn{
-  flex:1;
-  padding:12px 8px;
-  font-size:12px;
-  font-weight:500;
-  color:var(--muted);
-  background:none;
-  border:none;
-  cursor:pointer;
-  letter-spacing:0.5px;
-  transition:color 0.2s;
-  position:relative;
-}
+.bote-pill{background:var(--bg3);border:0.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--gold)}
+.nav{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border)}
+.nav-btn{flex:1;padding:12px 8px;font-size:12px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:0.5px;transition:color 0.2s;position:relative}
 .nav-btn.on{color:var(--red)}
-.nav-btn.on::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:2px;
-  background:var(--red);
-  border-radius:2px 2px 0 0;
-}
-
-/* Main content */
+.nav-btn.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);border-radius:2px 2px 0 0}
 .page{display:none;padding:20px;padding-bottom:calc(var(--safe-bot) + 24px)}
 .page.on{display:block}
-
-/* Status bar */
-.status{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:18px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
+.status{font-size:12px;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
 .dot.green{background:#22c55e}
 .dot.loading{background:var(--red);animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-
-/* Mode selector */
 .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.mode-btn{
-  background:var(--bg2);
-  border:0.5px solid var(--border);
-  border-radius:10px;
-  padding:10px 6px;
-  cursor:pointer;
-  text-align:center;
-  transition:all 0.15s;
-}
-.mode-btn.on{
-  border-color:var(--red);
-  background:rgba(192,0,26,0.08);
-}
+.mode-btn{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;transition:all 0.15s}
+.mode-btn.on{border-color:var(--red);background:rgba(192,0,26,0.08)}
 .mode-btn .label{font-size:13px;font-weight:500;color:var(--text)}
 .mode-btn .sub{font-size:10px;color:var(--muted);margin-top:3px}
 .mode-btn.on .label{color:var(--red)}
-
-/* Generate button */
-.gen-btn{
-  width:100%;
-  padding:15px;
-  background:var(--red);
-  color:#fff;
-  font-family:'DM Sans',sans-serif;
-  font-size:15px;
-  font-weight:500;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  letter-spacing:0.3px;
-  margin-bottom:20px;
-  transition:transform 0.1s,background 0.1s;
-  -webkit-appearance:none;
-}
+.gen-btn{width:100%;padding:15px;background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;border:none;border-radius:12px;cursor:pointer;letter-spacing:0.3px;margin-bottom:20px;transition:transform 0.1s,background 0.1s;-webkit-appearance:none}
 .gen-btn:active{transform:scale(0.98);background:var(--red-dim)}
-
-/* Combo cards */
-.combo-card{
-  background:var(--bg2);
-  border:0.5px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-}
-.combo-label{
-  font-size:10px;
-  font-weight:500;
-  letter-spacing:1px;
-  color:var(--muted);
-  margin-bottom:12px;
-  text-transform:uppercase;
-}
+.gen-btn:disabled{background:var(--bg3);color:var(--muted)}
+.combo-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.combo-label{font-size:10px;font-weight:500;letter-spacing:1px;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
 .balls-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.ball{
-  width:40px;height:40px;
-  border-radius:50%;
-  display:inline-flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:500;
-  flex-shrink:0;
-}
+.ball{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
 .ball-red{background:var(--red);color:#fff}
 .ball-hot{background:var(--red);color:#fff}
 .ball-cold{background:#1a2a3a;color:#7ab8e8;border:0.5px solid #2a4a6a}
 .ball-neu{background:var(--bg3);color:var(--text);border:0.5px solid var(--border)}
 .ball-star{background:var(--gold);color:#5a3d00}
 .sep{color:var(--border);font-size:18px;margin:0 2px}
-
-/* Historial */
-.hist-row{
-  display:flex;align-items:center;gap:6px;
-  padding:10px 0;
-  border-bottom:0.5px solid var(--border);
-  flex-wrap:wrap;
-}
+.hist-row{display:flex;align-items:center;gap:6px;padding:10px 0;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
 .hist-date{font-size:11px;color:var(--muted);min-width:82px;flex-shrink:0}
-.hist-ball{
-  width:28px;height:28px;
-  border-radius:50%;
-  display:inline-flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:500;
-  flex-shrink:0;
-}
-
-/* Frecuencias */
+.hist-ball{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
 .freq-section{margin-bottom:20px}
 .freq-title{font-size:11px;font-weight:500;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
 .freq-grid{display:flex;flex-wrap:wrap;gap:6px}
-.freq-chip{
-  display:flex;flex-direction:column;align-items:center;
-  width:44px;border-radius:8px;padding:5px 2px;
-  font-size:13px;font-weight:500;
-}
+.freq-chip{display:flex;flex-direction:column;align-items:center;width:44px;border-radius:8px;padding:5px 2px;font-size:13px;font-weight:500}
 .freq-chip .fx{font-size:9px;font-weight:400;margin-top:1px;opacity:0.7}
-
-/* Empty state */
 .empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
-
-/* Source note */
 .src{font-size:11px;color:var(--muted);margin-top:10px;text-align:center}
 .disc{font-size:11px;color:var(--muted);margin-top:16px;text-align:center;line-height:1.5}
+.update-info{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.6}
+.update-info strong{color:var(--text);font-weight:500}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="logo">EURO<span>JACKPOT</span></div>
-  <div class="bote-pill" id="bote-pill">Cargando...</div>
+  <div class="bote-pill" id="bote-pill">...</div>
 </div>
 
 <nav class="nav">
@@ -229,37 +82,34 @@ body{
   <button class="nav-btn" onclick="setTab('freq')">Frecuencias</button>
 </nav>
 
-<!-- GENERAR -->
 <div class="page on" id="page-gen">
   <div class="status"><div class="dot loading" id="dot"></div><span id="status-txt">Cargando resultados...</span></div>
   <div class="modes">
     <div class="mode-btn on" id="m-hot" onclick="setMode('hot')">
-      <div class="label">Calientes</div>
-      <div class="sub">Mas repetidos</div>
+      <div class="label">Calientes</div><div class="sub">Mas repetidos</div>
     </div>
     <div class="mode-btn" id="m-cold" onclick="setMode('cold')">
-      <div class="label">Frios</div>
-      <div class="sub">Menos vistos</div>
+      <div class="label">Frios</div><div class="sub">Menos vistos</div>
     </div>
     <div class="mode-btn" id="m-mix" onclick="setMode('mix')">
-      <div class="label">Mixta</div>
-      <div class="sub">3 hot + 2 frios</div>
+      <div class="label">Mixta</div><div class="sub">3 hot + 2 frios</div>
     </div>
   </div>
-  <button class="gen-btn" onclick="generar()" id="gen-btn" disabled>Generando...</button>
+  <button class="gen-btn" onclick="generar()" id="gen-btn" disabled>Cargando...</button>
   <div id="combos"></div>
   <p class="disc">La loteria es aleatoria. Este sistema es solo para entretenimiento. Juega con responsabilidad.</p>
 </div>
 
-<!-- HISTORIAL -->
 <div class="page" id="page-hist">
-  <div id="hist-content"><div class="empty">Cargando historial...</div></div>
+  <div class="update-info">
+    Los resultados se actualizan automaticamente cada <strong>martes y viernes</strong> a las 21:00h tras el sorteo.
+  </div>
+  <div id="hist-content"><div class="empty">Cargando...</div></div>
   <p class="src" id="src-note"></p>
 </div>
 
-<!-- FRECUENCIAS -->
 <div class="page" id="page-freq">
-  <div id="freq-content"><div class="empty">Cargando frecuencias...</div></div>
+  <div id="freq-content"><div class="empty">Cargando...</div></div>
 </div>
 
 <script>
@@ -267,172 +117,120 @@ let SORTEOS = [];
 let mode = 'hot';
 let loaded = false;
 
-const CLAUDE_API = 'https://api.anthropic.com/v1/messages';
-
-async function fetchSorteos() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('es-ES');
-  const prompt = `Hoy es ${dateStr}. Dame los últimos 10 resultados del sorteo Eurojackpot (se sortea martes y viernes). Busca en la web los resultados más recientes.
-Responde SOLO con un JSON válido sin texto adicional ni backticks:
-{"bote":"27 millones €","sorteos":[{"fecha":"Mar 3 jun 2026","nums":[1,2,3,4,5],"stars":[1,2]},...],"fuente":"euro-jackpot.net","actualizado":"${dateStr}"}
-Los sorteos deben ir del más reciente al más antiguo.`;
-
-  const res = await fetch(CLAUDE_API, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      model:'claude-sonnet-4-20250514',
-      max_tokens:1000,
-      tools:[{"type":"web_search_20250305","name":"web_search"}],
-      messages:[{role:'user',content:prompt}]
-    })
-  });
-  const data = await res.json();
-  let txt = '';
-  for(const b of data.content){
-    if(b.type==='text'&&b.text){txt=b.text.replace(/```json|```/g,'').trim();break;}
-  }
-  return JSON.parse(txt);
+async function fetchData() {
+  const res = await fetch('data.json?t=' + Date.now());
+  return await res.json();
 }
 
-function calcFreq(){
-  const fn={},fs={};
-  for(let i=1;i<=50;i++) fn[i]=0;
-  for(let i=1;i<=12;i++) fs[i]=0;
-  SORTEOS.forEach(s=>{s.nums.forEach(n=>fn[n]++);s.stars.forEach(x=>fs[x]++);});
-  return {fn,fs};
+function calcFreq() {
+  const fn = {}, fs = {};
+  for (let i = 1; i <= 50; i++) fn[i] = 0;
+  for (let i = 1; i <= 12; i++) fs[i] = 0;
+  SORTEOS.forEach(s => { s.nums.forEach(n => fn[n]++); s.stars.forEach(x => fs[x]++); });
+  return { fn, fs };
 }
 
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function pick(n,pool){return shuffle(pool).slice(0,n).sort((a,b)=>a-b);}
+function shuffle(a) { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+function pick(n, pool) { return shuffle(pool).slice(0, n).sort((a,b) => a-b); }
 
-function genCombo(){
-  const {fn,fs}=calcFreq();
-  const all=Object.entries(fn).map(([n,c])=>({n:+n,c})).sort((a,b)=>b.c-a.c);
-  const allS=Object.entries(fs).map(([n,c])=>({n:+n,c})).sort((a,b)=>b.c-a.c);
-  const hot=all.filter(x=>x.c>=2).map(x=>x.n);
-  const mid=all.filter(x=>x.c===1).map(x=>x.n);
-  const cold=all.filter(x=>x.c===0).map(x=>x.n);
-  const hotS=allS.filter(x=>x.c>=2).map(x=>x.n);
-  const midS=allS.filter(x=>x.c===1).map(x=>x.n);
-  const coldS=allS.filter(x=>x.c===0).map(x=>x.n);
-  let nums,stars;
-  if(mode==='hot'){
-    nums=pick(5,(hot.length>=5?hot:[...hot,...mid]).slice(0,18));
-    stars=pick(2,(hotS.length>=2?hotS:[...hotS,...midS]).slice(0,8));
-  } else if(mode==='cold'){
-    nums=pick(5,(cold.length>=5?cold:[...cold,...mid]).slice(0,18));
-    stars=pick(2,(coldS.length>=2?coldS:[...coldS,...midS]).slice(0,8));
+function genCombo() {
+  const { fn, fs } = calcFreq();
+  const all = Object.entries(fn).map(([n,c]) => ({n:+n,c})).sort((a,b) => b.c-a.c);
+  const allS = Object.entries(fs).map(([n,c]) => ({n:+n,c})).sort((a,b) => b.c-a.c);
+  const hot=all.filter(x=>x.c>=2).map(x=>x.n), mid=all.filter(x=>x.c===1).map(x=>x.n), cold=all.filter(x=>x.c===0).map(x=>x.n);
+  const hotS=allS.filter(x=>x.c>=2).map(x=>x.n), midS=allS.filter(x=>x.c===1).map(x=>x.n), coldS=allS.filter(x=>x.c===0).map(x=>x.n);
+  let nums, stars;
+  if (mode==='hot') {
+    nums = pick(5, (hot.length>=5?hot:[...hot,...mid]).slice(0,18));
+    stars = pick(2, (hotS.length>=2?hotS:[...hotS,...midS]).slice(0,8));
+  } else if (mode==='cold') {
+    nums = pick(5, (cold.length>=5?cold:[...cold,...mid]).slice(0,18));
+    stars = pick(2, (coldS.length>=2?coldS:[...coldS,...midS]).slice(0,8));
   } else {
-    const h=pick(3,(hot.length>=3?hot:[...hot,...mid]).slice(0,14));
-    const c=pick(2,(cold.length>=2?cold:[...cold,...mid]).filter(x=>!h.includes(x)).slice(0,14));
-    nums=[...h,...c].sort((a,b)=>a-b);
-    const hs=hotS.length>=1?hotS:midS;
-    const cs=(coldS.length>=1?coldS:midS).filter(x=>!hs.slice(0,1).includes(x));
-    stars=[pick(1,hs)[0],pick(1,cs.length?cs:midS)[0]].sort((a,b)=>a-b);
+    const h = pick(3, (hot.length>=3?hot:[...hot,...mid]).slice(0,14));
+    const c = pick(2, (cold.length>=2?cold:[...cold,...mid]).filter(x=>!h.includes(x)).slice(0,14));
+    nums = [...h,...c].sort((a,b) => a-b);
+    const hs = hotS.length>=1?hotS:midS;
+    const cs = (coldS.length>=1?coldS:midS).filter(x=>!hs.slice(0,1).includes(x));
+    stars = [pick(1,hs)[0], pick(1,cs.length?cs:midS)[0]].sort((a,b) => a-b);
   }
-  return {nums,stars};
+  return { nums, stars };
 }
 
-function ballHTML(n,cls,small){
-  const s=small?'width:28px;height:28px;font-size:11px':'';
-  return `<span class="ball ${cls}" style="${s}">${n}</span>`;
-}
-
-function comboHTML(c,label){
-  const {fn}=calcFreq();
-  const nb=c.nums.map(n=>{
-    const cls=fn[n]>=2?'ball-hot':fn[n]===0?'ball-cold':'ball-neu';
-    return ballHTML(n,cls,false);
+function comboHTML(c, label) {
+  const { fn } = calcFreq();
+  const nb = c.nums.map(n => {
+    const cls = fn[n]>=2?'ball-hot':fn[n]===0?'ball-cold':'ball-neu';
+    return `<span class="ball ${cls}">${n}</span>`;
   }).join('');
-  const sb=c.stars.map(s=>ballHTML('★'+s,'ball-star',false)).join('');
-  return `<div class="combo-card">
-    <div class="combo-label">${label}</div>
-    <div class="balls-row">${nb}<span class="sep">+</span>${sb}</div>
-  </div>`;
+  const sb = c.stars.map(s => `<span class="ball ball-star">★${s}</span>`).join('');
+  return `<div class="combo-card"><div class="combo-label">${label}</div><div class="balls-row">${nb}<span class="sep">+</span>${sb}</div></div>`;
 }
 
-function generar(){
-  if(!loaded) return;
-  const lmap={hot:'Combinacion caliente',cold:'Combinacion fria',mix:'Combinacion mixta'};
-  const c1=genCombo(),c2=genCombo();
-  document.getElementById('combos').innerHTML=comboHTML(c1,lmap[mode]+' · 1')+comboHTML(c2,lmap[mode]+' · 2');
+function generar() {
+  if (!loaded) return;
+  const lmap = { hot:'Combinacion caliente', cold:'Combinacion fria', mix:'Combinacion mixta' };
+  document.getElementById('combos').innerHTML = comboHTML(genCombo(), lmap[mode]+' · 1') + comboHTML(genCombo(), lmap[mode]+' · 2');
 }
 
-function setMode(m){
-  mode=m;
-  ['hot','cold','mix'].forEach(k=>{
-    document.getElementById('m-'+k).classList.toggle('on',k===m);
-  });
-  if(loaded) generar();
+function setMode(m) {
+  mode = m;
+  ['hot','cold','mix'].forEach(k => document.getElementById('m-'+k).classList.toggle('on', k===m));
+  if (loaded) generar();
 }
 
-function setTab(t){
-  ['gen','hist','freq'].forEach(k=>{
-    document.getElementById('page-'+k).classList.toggle('on',k===t);
-  });
-  document.querySelectorAll('.nav-btn').forEach((b,i)=>{
-    b.classList.toggle('on',['gen','hist','freq'][i]===t);
-  });
+function setTab(t) {
+  ['gen','hist','freq'].forEach(k => document.getElementById('page-'+k).classList.toggle('on', k===t));
+  document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('on', ['gen','hist','freq'][i]===t));
 }
 
-function buildHist(){
-  const rows=SORTEOS.map(s=>{
-    const nb=s.nums.map(n=>`<span class="hist-ball ball-red">${n}</span>`).join('');
-    const sb=s.stars.map(x=>`<span class="hist-ball ball-star">★${x}</span>`).join('');
-    return `<div class="hist-row"><span class="hist-date">${s.fecha}</span>${nb}<span class="sep" style="font-size:13px">+</span>${sb}</div>`;
-  }).join('');
-  document.getElementById('hist-content').innerHTML=rows||'<div class="empty">Sin datos</div>';
+function buildHist() {
+  document.getElementById('hist-content').innerHTML = SORTEOS.map(s => `
+    <div class="hist-row">
+      <span class="hist-date">${s.fecha}</span>
+      ${s.nums.map(n=>`<span class="hist-ball ball-red">${n}</span>`).join('')}
+      <span class="sep" style="font-size:13px">+</span>
+      ${s.stars.map(x=>`<span class="hist-ball ball-star">★${x}</span>`).join('')}
+    </div>`).join('');
 }
 
-function buildFreq(){
-  const {fn,fs}=calcFreq();
-  const sorted=Object.entries(fn).map(([n,c])=>({n:+n,c})).sort((a,b)=>b.c-a.c||a.n-b.n).filter(x=>x.c>0);
-  const maxN=sorted[0]?.c||1;
-  const numsHTML=sorted.map(({n,c})=>{
-    const bg=c>=3?'#C0001A':c>=2?'#8a0012':'#1e1e1e';
-    const col=c>=2?'#fff':'#aaa';
+function buildFreq() {
+  const { fn, fs } = calcFreq();
+  const sorted = Object.entries(fn).map(([n,c]) => ({n:+n,c})).sort((a,b) => b.c-a.c||a.n-b.n).filter(x=>x.c>0);
+  const numsHTML = sorted.map(({n,c}) => {
+    const bg=c>=3?'#C0001A':c>=2?'#8a0012':'#1e1e1e', col=c>=2?'#fff':'#aaa';
     return `<div class="freq-chip" style="background:${bg};color:${col}">${n}<span class="fx">${c}x</span></div>`;
   }).join('');
-
-  const sortedS=Object.entries(fs).map(([n,c])=>({n:+n,c})).sort((a,b)=>b.c-a.c||a.n-b.n);
-  const starsHTML=sortedS.map(({n,c})=>{
-    const bg=c>=3?'#f5b800':c>=2?'#c49000':c>=1?'#2a2200':'#1e1e1e';
-    const col=c>=2?'#5a3d00':c>=1?'#c49000':'#555';
+  const sortedS = Object.entries(fs).map(([n,c]) => ({n:+n,c})).sort((a,b) => b.c-a.c||a.n-b.n);
+  const starsHTML = sortedS.map(({n,c}) => {
+    const bg=c>=3?'#f5b800':c>=2?'#c49000':c>=1?'#2a2200':'#1e1e1e', col=c>=2?'#5a3d00':c>=1?'#c49000':'#555';
     return `<div class="freq-chip" style="background:${bg};color:${col}">★${n}<span class="fx">${c}x</span></div>`;
   }).join('');
-
-  document.getElementById('freq-content').innerHTML=`
-    <div class="freq-section">
-      <div class="freq-title">Numeros principales</div>
-      <div class="freq-grid">${numsHTML}</div>
-    </div>
-    <div class="freq-section">
-      <div class="freq-title">Soles (Eurostrellas)</div>
-      <div class="freq-grid">${starsHTML}</div>
-    </div>`;
+  document.getElementById('freq-content').innerHTML = `
+    <div class="freq-section"><div class="freq-title">Numeros principales</div><div class="freq-grid">${numsHTML}</div></div>
+    <div class="freq-section"><div class="freq-title">Soles (Eurostrellas)</div><div class="freq-grid">${starsHTML}</div></div>`;
 }
 
-async function init(){
+async function init() {
   try {
-    const data=await fetchSorteos();
-    SORTEOS=data.sorteos;
-    loaded=true;
-    document.getElementById('dot').className='dot green';
-    document.getElementById('status-txt').textContent='Actualizado · '+data.actualizado;
-    if(data.bote) document.getElementById('bote-pill').textContent='Bote '+data.bote;
-    document.getElementById('gen-btn').disabled=false;
-    document.getElementById('gen-btn').textContent='Generar mis 2 combinaciones';
-    if(data.fuente) document.getElementById('src-note').textContent='Fuente: '+data.fuente+' · '+data.actualizado;
+    const data = await fetchData();
+    SORTEOS = data.sorteos;
+    loaded = true;
+    document.getElementById('dot').className = 'dot green';
+    document.getElementById('status-txt').textContent = 'Actualizado · ' + data.actualizado;
+    if (data.bote) document.getElementById('bote-pill').textContent = 'Bote ' + data.bote;
+    document.getElementById('gen-btn').disabled = false;
+    document.getElementById('gen-btn').textContent = 'Generar mis 2 combinaciones';
+    if (data.fuente) document.getElementById('src-note').textContent = 'Fuente: ' + data.fuente + ' · ' + data.actualizado;
     buildHist();
     buildFreq();
     generar();
-  } catch(e){
-    document.getElementById('dot').className='dot';
-    document.getElementById('status-txt').textContent='Error al cargar. Revisa tu conexion.';
-    document.getElementById('gen-btn').textContent='Reintentar';
-    document.getElementById('gen-btn').disabled=false;
-    document.getElementById('gen-btn').onclick=init;
+  } catch(e) {
+    document.getElementById('dot').className = 'dot';
+    document.getElementById('status-txt').textContent = 'Error al cargar resultados.';
+    document.getElementById('gen-btn').textContent = 'Reintentar';
+    document.getElementById('gen-btn').disabled = false;
+    document.getElementById('gen-btn').onclick = init;
     console.error(e);
   }
 }
