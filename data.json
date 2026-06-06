@@ -1,5 +1,5 @@
 {
-  "bote": "220 millones de euros",
+  "bote": "120 millones de euros",
   "sorteos": [
     {
       "fecha": "6/6/2026",
@@ -30,6 +30,6 @@
       ]
     }
   ],
-  "fuente": "eurojackpot.net",
+  "fuente": "juegosonce.es",
   "actualizado": "6/6/2026"
 }
