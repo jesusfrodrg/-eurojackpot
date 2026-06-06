@@ -11,102 +11,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --red:#C0001A;--red2:#8a0012;--gold:#f5b800;
-  --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;
-  --border:#2a2a2a;--text:#f0f0f0;--muted:#777;
-  --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
-}
+:root{--red:#C0001A;--red2:#8a0012;--gold:#f5b800;--blue:#5bb3e8;--bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;--border:#2a2a2a;--text:#f0f0f0;--muted:#666;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px)}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
-
-/* HEADER */
-.header{padding:calc(var(--safe-top) + 16px) 18px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:100;border-bottom:0.5px solid var(--border)}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;line-height:1}
+.header{padding:calc(var(--safe-top)+16px) 16px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:100;border-bottom:0.5px solid var(--border)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;line-height:1}
 .logo span{color:var(--red)}
-.bote{background:var(--bg3);border:0.5px solid var(--border);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:500;color:var(--gold)}
-
-/* NAV */
-.nav{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border)}
-.nb{flex:1;padding:11px 6px;font-size:11px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;position:relative;letter-spacing:0.3px}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.bote{background:var(--bg3);border:0.5px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:500;color:var(--gold)}
+.countdown{font-size:10px;color:var(--muted)}
+.nav{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border);overflow-x:auto}
+.nb{flex:1;min-width:60px;padding:10px 4px;font-size:10px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;position:relative;white-space:nowrap}
 .nb.on{color:var(--red)}
 .nb.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);border-radius:2px 2px 0 0}
-
-/* PAGES */
-.page{display:none;padding:16px 16px calc(var(--safe-bot) + 20px)}
+.page{display:none;padding:14px 14px calc(var(--safe-bot)+20px)}
 .page.on{display:block}
-
-/* STATUS */
-.status{font-size:11px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.status{font-size:11px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.dot.green{background:#22c55e}
-.dot.grey{background:var(--muted)}
-.dot.spin{background:var(--red);animation:pulse 1s infinite}
+.dot.green{background:#22c55e}.dot.grey{background:var(--muted)}.dot.spin{background:var(--red);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* MODE SELECTOR */
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
-.mc{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:9px 5px;cursor:pointer;text-align:center}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.mc{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:8px 4px;cursor:pointer;text-align:center}
 .mc.on{border-color:var(--red);background:rgba(192,0,26,.1)}
-.mc .ml{font-size:12px;font-weight:500;color:var(--text)}
-.mc .ms{font-size:10px;color:var(--muted);margin-top:2px}
+.mc .ml{font-size:11px;font-weight:500;color:var(--text)}.mc .ms{font-size:9px;color:var(--muted);margin-top:2px}
 .mc.on .ml{color:var(--red)}
-
-/* BUTTON */
-.gbtn{width:100%;padding:14px;background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;border-radius:12px;cursor:pointer;margin-bottom:16px;-webkit-appearance:none;transition:background .1s}
-.gbtn:active{background:var(--red2)}
-.gbtn:disabled{background:var(--bg3);color:var(--muted)}
-
-/* COMBO CARDS */
-.combo{background:var(--bg2);border:0.5px solid var(--border);border-radius:13px;padding:14px;margin-bottom:10px}
-.clabel{font-size:9px;font-weight:500;letter-spacing:1px;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
-.brow{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
-.ball{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
-.bh{background:var(--red);color:#fff}
-.bc{background:#0d1f2d;color:#5bb3e8;border:0.5px solid #1a3a52}
-.bn{background:var(--bg3);color:var(--text);border:0.5px solid var(--border)}
-.bs{background:var(--gold);color:#4a2e00}
-.sep{color:var(--border);font-size:16px;margin:0 2px}
-
-/* HISTORIAL */
-.hrow{display:flex;align-items:center;gap:5px;padding:9px 0;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
-.hdate{font-size:10px;color:var(--muted);min-width:78px;flex-shrink:0}
-.sb{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
-
-/* FRECUENCIAS */
-.ftitle{font-size:10px;font-weight:500;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin:16px 0 8px}
-.fgrid{display:flex;flex-wrap:wrap;gap:5px}
-.fchip{display:flex;flex-direction:column;align-items:center;width:42px;border-radius:8px;padding:5px 2px;font-size:12px;font-weight:500}
-.fchip .fx{font-size:9px;opacity:.7;margin-top:1px}
-
-/* LEYENDA */
-.leyenda{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.litem{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
-.ldot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-
-/* INFO */
-.info{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:var(--muted);line-height:1.6}
-.info strong{color:var(--text)}
-.disc{font-size:10px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
-.src{font-size:10px;color:var(--muted);text-align:center;margin-top:8px}
-
-/* TOP NUMS */
-.toprow{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
-.topchip{flex-shrink:0;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;font-size:11px}
-.topchip .tn{font-size:16px;font-weight:500;color:var(--text)}
-.topchip .tc{font-size:10px;margin-top:1px}
+.gbtn{width:100%;padding:13px;background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;border-radius:12px;cursor:pointer;margin-bottom:14px;-webkit-appearance:none}
+.gbtn:active{background:var(--red2)}.gbtn:disabled{background:var(--bg3);color:var(--muted)}
+.combo{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
+.clabel{font-size:9px;font-weight:500;letter-spacing:1px;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.brow{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.ball{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.bh{background:var(--red);color:#fff}.bc{background:#0d1f2d;color:var(--blue);border:0.5px solid #1a3a52}
+.bn{background:var(--bg3);color:var(--text);border:0.5px solid var(--border)}.bs{background:var(--gold);color:#4a2e00}
+.sep{color:var(--border);font-size:14px;margin:0 1px}
+.combo-info{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5}
+.combo-info span{color:var(--text)}
+.section{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
+.stitle{font-size:10px;font-weight:500;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.hrow{display:flex;align-items:center;gap:4px;padding:8px 0;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
+.hdate{font-size:10px;color:var(--muted);min-width:74px;flex-shrink:0}
+.sb{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0}
+.ftitle{font-size:10px;font-weight:500;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin:14px 0 8px}
+.fgrid{display:flex;flex-wrap:wrap;gap:4px}
+.fchip{display:flex;flex-direction:column;align-items:center;width:40px;border-radius:7px;padding:4px 2px;font-size:11px;font-weight:500}
+.fchip .fx{font-size:8px;opacity:.7;margin-top:1px}
+.toprow{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:4px}
+.topchip{flex-shrink:0;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center}
+.topchip .tn{font-size:18px;font-weight:500}.topchip .tc{font-size:9px;color:var(--muted);margin-top:2px}
+.par-chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.par-balls{display:flex;gap:3px}
+.par-count{font-size:11px;color:var(--muted);margin-left:auto}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.litem{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)}
+.ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.info-box{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:var(--muted);line-height:1.6}
+.info-box strong{color:var(--text)}
+.disc{font-size:9px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5}
+.src{font-size:9px;color:var(--muted);text-align:center;margin-top:6px}
+.verificador{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px}
+.vnum{background:var(--bg3);border:0.5px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;font-size:16px;font-weight:500;color:var(--text);width:100%;-webkit-appearance:none;font-family:'DM Sans',sans-serif}
+.vnum:focus{outline:none;border-color:var(--red)}
+.vstars{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px}
+.vbtn{width:100%;padding:11px;background:var(--bg3);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;border:0.5px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px}
+.vbtn:active{background:var(--border)}
+.vresult{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px}
+.vjackpot{background:rgba(192,0,26,.15);border-color:var(--red)}
+.proxrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.proxrow:last-child{border-bottom:none}
+.jbtn{display:block;width:100%;padding:12px;background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border:none;border-radius:10px;cursor:pointer;text-align:center;text-decoration:none;margin-top:10px}
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="logo">EURO<span>JACKPOT</span></div>
-  <div class="bote" id="bote">...</div>
+  <div class="header-right">
+    <div class="bote" id="bote">...</div>
+    <div class="countdown" id="countdown"></div>
+  </div>
 </div>
-
 <nav class="nav">
   <button class="nb on" onclick="setTab('gen')">Generar</button>
   <button class="nb" onclick="setTab('hist')">Historial</button>
   <button class="nb" onclick="setTab('freq')">Frecuencias</button>
+  <button class="nb" onclick="setTab('pares')">Pares</button>
+  <button class="nb" onclick="setTab('ver')">Verificar</button>
+  <button class="nb" onclick="setTab('info')">Info</button>
 </nav>
 
 <!-- GENERAR -->
@@ -114,8 +102,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="status"><div class="dot spin" id="dot"></div><span id="stxt">Cargando...</span></div>
   <div class="modes">
     <div class="mc on" id="m-hot" onclick="setMode('hot')"><div class="ml">&#x1F525; Calientes</div><div class="ms">Mas repetidos</div></div>
-    <div class="mc" id="m-cold" onclick="setMode('cold')"><div class="ml">&#x2744;&#xFE0F; Frios</div><div class="ms">Menos vistos</div></div>
-    <div class="mc" id="m-mix" onclick="setMode('mix')"><div class="ml">&#x2696;&#xFE0F; Mixta</div><div class="ms">3 hot + 2 frios</div></div>
+    <div class="mc" id="m-cold" onclick="setMode('cold')"><div class="ml">&#x2744; Frios</div><div class="ms">Menos vistos</div></div>
+    <div class="mc" id="m-mix" onclick="setMode('mix')"><div class="ml">&#x2696; Mixta</div><div class="ms">3 hot+2 frio</div></div>
   </div>
   <button class="gbtn" id="gbtn" onclick="generar()" disabled>Cargando...</button>
   <div id="combos"></div>
@@ -124,203 +112,337 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <!-- HISTORIAL -->
 <div class="page" id="page-hist">
-  <div class="info">Resultados actualizados automaticamente cada <strong>martes y viernes</strong> tras el sorteo.</div>
+  <div class="info-box">Resultados actualizados cada <strong>martes y viernes a las 21h</strong> automaticamente.</div>
   <div id="hlist"></div>
   <p class="src" id="src"></p>
 </div>
 
 <!-- FRECUENCIAS -->
 <div class="page" id="page-freq">
-  <div class="info">Analisis basado en los <strong>ultimos 10 sorteos reales</strong>. Rojo = aparece 3+ veces. Rosa = 2 veces. Gris = 1 vez. Azul = nunca ha salido.</div>
   <div class="leyenda">
-    <div class="litem"><div class="ldot" style="background:var(--red)"></div>3+ veces (caliente)</div>
-    <div class="litem"><div class="ldot" style="background:#e57373"></div>2 veces</div>
+    <div class="litem"><div class="ldot" style="background:var(--red)"></div>3+ veces</div>
+    <div class="litem"><div class="ldot" style="background:#8a0012"></div>2 veces</div>
     <div class="litem"><div class="ldot" style="background:var(--bg3)"></div>1 vez</div>
-    <div class="litem"><div class="ldot" style="background:#0d1f2d;border:0.5px solid #1a3a52"></div>0 veces (frio)</div>
+    <div class="litem"><div class="ldot" style="background:#0d1f2d;border:0.5px solid #1a3a52"></div>0 veces</div>
   </div>
-  <div class="ftitle">Numeros principales (1-50)</div>
+  <div id="fbase-label" class="info-box"></div>
+  <div class="ftitle">Numeros (1-50)</div>
   <div class="fgrid" id="fnums"></div>
-  <div class="ftitle">Soles / Eurostrellas (1-12)</div>
+  <div class="ftitle">Soles (1-12)</div>
   <div class="fgrid" id="fstars"></div>
-  <div class="ftitle">Top 5 numeros mas calientes</div>
+  <div class="ftitle">&#x1F525; Top 5 calientes</div>
   <div class="toprow" id="ftop"></div>
-  <div class="ftitle">Top 5 numeros mas frios</div>
+  <div class="ftitle">&#x2744; Top 5 frios (mas atrasados)</div>
   <div class="toprow" id="fbot"></div>
+  <div class="ftitle">Suma tipica de combinaciones ganadoras</div>
+  <div class="section" style="font-size:12px;color:var(--muted);line-height:1.8" id="fsuma"></div>
+</div>
+
+<!-- PARES -->
+<div class="page" id="page-pares">
+  <div class="info-box">Parejas de numeros que han salido juntas con mas frecuencia en el historial analizado.</div>
+  <div class="ftitle">Top 10 pares mas frecuentes</div>
+  <div id="pares-list"></div>
+</div>
+
+<!-- VERIFICADOR -->
+<div class="page" id="page-ver">
+  <div class="info-box">Introduce tu combinacion y comprueba cuantos aciertos tienes con el <strong>ultimo sorteo</strong>.</div>
+  <div class="stitle">Tus 5 numeros</div>
+  <div class="verificador">
+    <input class="vnum" id="v1" type="number" min="1" max="50" placeholder="?">
+    <input class="vnum" id="v2" type="number" min="1" max="50" placeholder="?">
+    <input class="vnum" id="v3" type="number" min="1" max="50" placeholder="?">
+    <input class="vnum" id="v4" type="number" min="1" max="50" placeholder="?">
+    <input class="vnum" id="v5" type="number" min="1" max="50" placeholder="?">
+  </div>
+  <div class="stitle">Tus 2 soles</div>
+  <div class="vstars">
+    <input class="vnum" id="vs1" type="number" min="1" max="12" placeholder="?">
+    <input class="vnum" id="vs2" type="number" min="1" max="12" placeholder="?">
+  </div>
+  <button class="vbtn" onclick="verificar()">Comprobar combinacion</button>
+  <div id="vresult"></div>
+</div>
+
+<!-- INFO -->
+<div class="page" id="page-info">
+  <div class="section">
+    <div class="stitle">Proximo sorteo</div>
+    <div id="prox-info"></div>
+    <a href="https://www.juegosonce.es/eurojackpot" target="_blank" class="jbtn">Jugar en JuegosONCE &#x2192;</a>
+  </div>
+  <div class="section" style="margin-top:10px">
+    <div class="stitle">Como funciona el sistema</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.8">
+      <div>&#x1F525; <strong style="color:var(--text)">Calientes</strong> — numeros que mas veces han salido</div>
+      <div>&#x2744; <strong style="color:var(--text)">Frios</strong> — numeros que llevan mas tiempo sin salir</div>
+      <div>&#x2696; <strong style="color:var(--text)">Mixta</strong> — 3 calientes + 2 frios</div>
+      <div style="margin-top:8px">&#x26A0;&#xFE0F; La loteria es aleatoria. Ningun numero tiene mas probabilidad que otro. Este sistema es solo orientativo.</div>
+    </div>
+  </div>
+  <div class="section" style="margin-top:10px">
+    <div class="stitle">Datos del sistema</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.8" id="datos-info"></div>
+  </div>
 </div>
 
 <script>
-var SORTEOS = [];
+var DATA = null;
 var mode = 'hot';
 var loaded = false;
 
 async function loadData() {
-  var res = await fetch('data.json?t=' + Date.now());
-  return await res.json();
+  var r = await fetch('data.json?t='+Date.now());
+  return await r.json();
 }
 
-function freq() {
-  var fn = {}, fs = {};
-  for (var i = 1; i <= 50; i++) fn[i] = 0;
-  for (var i = 1; i <= 12; i++) fs[i] = 0;
-  SORTEOS.forEach(function(s) {
-    s.nums.forEach(function(n) { fn[n]++; });
-    s.stars.forEach(function(x) { fs[x]++; });
+// ---- FRECUENCIAS ----
+function calcFreq(n) {
+  var sorteos = DATA.sorteos.slice(0, n||DATA.sorteos.length);
+  var fn={}, fs={};
+  for(var i=1;i<=50;i++) fn[i]=0;
+  for(var i=1;i<=12;i++) fs[i]=0;
+  sorteos.forEach(function(s){
+    s.nums.forEach(function(x){fn[x]++;});
+    s.stars.forEach(function(x){fs[x]++;});
   });
-  return { fn: fn, fs: fs };
+  return {fn:fn, fs:fs};
 }
 
-function shuffle(a) {
-  var b = a.slice();
-  for (var i = b.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var t = b[i]; b[i] = b[j]; b[j] = t;
-  }
-  return b;
-}
+// ---- SHUFFLE / PICK ----
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function pick(n,pool){return shuffle(pool).slice(0,n).sort(function(a,b){return a-b;});}
 
-function pick(n, pool) {
-  return shuffle(pool).slice(0, n).sort(function(a,b){return a-b;});
-}
-
+// ---- GENERAR ----
 function genCombo() {
-  var f = freq();
-  var fn = f.fn, fs = f.fs;
-  var all = Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
-  var allS = Object.keys(fs).map(function(k){return{n:+k,c:fs[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
-  var hot = all.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
-  var mid = all.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
-  var cold = all.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
-  var hotS = allS.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
-  var midS = allS.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
-  var coldS = allS.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
+  var f = calcFreq(10);
+  var fn=f.fn, fs=f.fs;
+  var all=Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
+  var allS=Object.keys(fs).map(function(k){return{n:+k,c:fs[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
+  var hot=all.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
+  var mid=all.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
+  var cold=all.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
+  var hotS=allS.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
+  var midS=allS.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
+  var coldS=allS.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
   var nums, stars;
-  if (mode === 'hot') {
-    nums = pick(5, hot.length >= 5 ? hot : hot.concat(mid));
-    stars = pick(2, hotS.length >= 2 ? hotS : hotS.concat(midS));
-  } else if (mode === 'cold') {
-    nums = pick(5, cold.length >= 5 ? cold : cold.concat(mid));
-    stars = pick(2, coldS.length >= 2 ? coldS : coldS.concat(midS));
+  if(mode==='hot'){
+    nums=pick(5,hot.length>=5?hot:hot.concat(mid));
+    stars=pick(2,hotS.length>=2?hotS:hotS.concat(midS));
+  } else if(mode==='cold'){
+    nums=pick(5,cold.length>=5?cold:cold.concat(mid));
+    stars=pick(2,coldS.length>=2?coldS:coldS.concat(midS));
   } else {
-    var h = pick(3, hot.length >= 3 ? hot : hot.concat(mid));
-    var c = pick(2, cold.filter(function(x){return h.indexOf(x)<0;}).concat(mid.filter(function(x){return h.indexOf(x)<0;})));
-    nums = h.concat(c).sort(function(a,b){return a-b;});
-    var hs = hotS.length >= 1 ? hotS : midS;
-    var cs = (coldS.length >= 1 ? coldS : midS).filter(function(x){return hs.slice(0,1).indexOf(x)<0;});
-    stars = [pick(1,hs)[0], pick(1, cs.length ? cs : midS)[0]].sort(function(a,b){return a-b;});
+    var h=pick(3,hot.length>=3?hot:hot.concat(mid));
+    var c=pick(2,cold.filter(function(x){return h.indexOf(x)<0;}).concat(mid.filter(function(x){return h.indexOf(x)<0;})));
+    nums=h.concat(c).sort(function(a,b){return a-b;});
+    var hs=hotS.length>=1?hotS:midS;
+    var cs=(coldS.length>=1?coldS:midS).filter(function(x){return hs.slice(0,1).indexOf(x)<0;});
+    stars=[pick(1,hs)[0],pick(1,cs.length?cs:midS)[0]].sort(function(a,b){return a-b;});
   }
-  return { nums: nums, stars: stars };
-}
-
-function ballClass(n, fn) {
-  return fn[n] >= 3 ? 'ball bh' : fn[n] === 2 ? 'ball bh' : fn[n] === 1 ? 'ball bn' : 'ball bc';
+  var suma=nums.reduce(function(a,b){return a+b;},0);
+  return {nums:nums, stars:stars, suma:suma};
 }
 
 function renderCombo(c, label) {
-  var f = freq();
-  var nb = c.nums.map(function(n) {
-    return '<span class="ball ' + (f.fn[n]>=2?'bh':f.fn[n]===1?'bn':'bc') + '" title="Sale ' + f.fn[n] + 'x en ultimos 10">' + n + '</span>';
+  var f=calcFreq(10);
+  var nb=c.nums.map(function(n){
+    var cls=f.fn[n]>=2?'bh':f.fn[n]===1?'bn':'bc';
+    return '<span class="ball '+cls+'" title="'+f.fn[n]+'x en 10 sorteos">'+n+'</span>';
   }).join('');
-  var sb = c.stars.map(function(s) {
-    return '<span class="ball bs">&#9733;' + s + '</span>';
+  var sb=c.stars.map(function(s){return '<span class="ball bs">&#9733;'+s+'</span>';}).join('');
+  var sumaOk = c.suma>=95&&c.suma<=175;
+  return '<div class="combo"><div class="clabel">'+label+'</div><div class="brow">'+nb+'<span class="sep">+</span>'+sb+'</div><div class="combo-info">Suma: <span style="color:'+(sumaOk?'#22c55e':'var(--muted)')+'">'+c.suma+'</span>'+(sumaOk?' &#x2713; rango optimo (95-175)':' fuera del rango tipico')+'</div></div>';
+}
+
+function generar(){
+  if(!loaded) return;
+  var lmap={hot:'Combinacion caliente',cold:'Combinacion fria',mix:'Combinacion mixta'};
+  var c1=genCombo(), c2=genCombo();
+  // Asegurar que no son iguales
+  var tries=0;
+  while(c2.nums.join()==c1.nums.join() && tries++<10) c2=genCombo();
+  document.getElementById('combos').innerHTML=renderCombo(c1,lmap[mode]+' · 1')+renderCombo(c2,lmap[mode]+' · 2');
+}
+
+function setMode(m){
+  mode=m;
+  ['hot','cold','mix'].forEach(function(k){document.getElementById('m-'+k).classList.toggle('on',k===m);});
+  if(loaded) generar();
+}
+
+// ---- TABS ----
+function setTab(t){
+  ['gen','hist','freq','pares','ver','info'].forEach(function(k){document.getElementById('page-'+k).classList.toggle('on',k===t);});
+  document.querySelectorAll('.nb').forEach(function(b,i){b.classList.toggle('on',['gen','hist','freq','pares','ver','info'][i]===t);});
+}
+
+// ---- HISTORIAL ----
+function buildHist(){
+  var html=DATA.sorteos.map(function(s,i){
+    var nb=s.nums.map(function(n){return '<span class="sb bh">'+n+'</span>';}).join('');
+    var sb=s.stars.map(function(x){return '<span class="sb bs">&#9733;'+x+'</span>';}).join('');
+    return '<div class="hrow"><span class="hdate">'+s.fecha+'</span>'+nb+'<span class="sep" style="font-size:11px">+</span>'+sb+'</div>';
   }).join('');
-  return '<div class="combo"><div class="clabel">' + label + '</div><div class="brow">' + nb + '<span class="sep">+</span>' + sb + '</div></div>';
+  document.getElementById('hlist').innerHTML=html;
+  document.getElementById('src').textContent='Fuente: '+DATA.fuente+' · '+DATA.actualizado;
 }
 
-function generar() {
-  if (!loaded) return;
-  var lmap = { hot:'Combinacion caliente', cold:'Combinacion fria', mix:'Combinacion mixta' };
-  var c1 = genCombo(), c2 = genCombo();
-  document.getElementById('combos').innerHTML =
-    renderCombo(c1, lmap[mode] + ' · 1') +
-    renderCombo(c2, lmap[mode] + ' · 2');
-}
-
-function setMode(m) {
-  mode = m;
-  ['hot','cold','mix'].forEach(function(k) {
-    document.getElementById('m-'+k).classList.toggle('on', k===m);
-  });
-  if (loaded) generar();
-}
-
-function setTab(t) {
-  ['gen','hist','freq'].forEach(function(k) {
-    document.getElementById('page-'+k).classList.toggle('on', k===t);
-  });
-  document.querySelectorAll('.nb').forEach(function(b, i) {
-    b.classList.toggle('on', ['gen','hist','freq'][i]===t);
-  });
-}
-
-function buildHist() {
-  document.getElementById('hlist').innerHTML = SORTEOS.map(function(s) {
-    var nb = s.nums.map(function(n){return '<span class="sb bh">'+n+'</span>';}).join('');
-    var sb = s.stars.map(function(x){return '<span class="sb bs">&#9733;'+x+'</span>';}).join('');
-    return '<div class="hrow"><span class="hdate">'+s.fecha+'</span>'+nb+'<span class="sep" style="font-size:12px">+</span>'+sb+'</div>';
-  }).join('');
-}
-
-function buildFreq() {
-  var f = freq();
-  var fn = f.fn, fs = f.fs;
-
-  // Todos los numeros 1-50
-  var html = '';
-  for (var n = 1; n <= 50; n++) {
-    var c = fn[n];
-    var bg = c >= 3 ? '#C0001A' : c === 2 ? '#8a0012' : c === 1 ? '#1e1e1e' : '#0d1f2d';
-    var col = c >= 2 ? '#fff' : c === 1 ? '#aaa' : '#5bb3e8';
-    var brd = c === 0 ? 'border:0.5px solid #1a3a52;' : '';
-    html += '<div class="fchip" style="background:'+bg+';color:'+col+';'+brd+'">' + n + '<span class="fx">' + c + 'x</span></div>';
+// ---- FRECUENCIAS ----
+function buildFreq(){
+  var n=DATA.sorteos.length;
+  document.getElementById('fbase-label').innerHTML='Analisis basado en los <strong>'+n+' ultimos sorteos</strong>. Cuantos mas datos, mas fiable.';
+  var f=calcFreq();
+  var fn=f.fn, fs=f.fs;
+  var html='';
+  for(var i=1;i<=50;i++){
+    var c=fn[i];
+    var bg=c>=3?'#C0001A':c>=2?'#8a0012':c>=1?'#1e1e1e':'#0d1f2d';
+    var col=c>=2?'#fff':c>=1?'#aaa':'#5bb3e8';
+    var brd=c===0?'border:0.5px solid #1a3a52;':'';
+    html+='<div class="fchip" style="background:'+bg+';color:'+col+';'+brd+'">'+i+'<span class="fx">'+c+'x</span></div>';
   }
-  document.getElementById('fnums').innerHTML = html;
-
-  // Soles 1-12
-  var html2 = '';
-  for (var s = 1; s <= 12; s++) {
-    var c2 = fs[s];
-    var bg2 = c2 >= 3 ? '#f5b800' : c2 === 2 ? '#c49000' : c2 === 1 ? '#2a2200' : '#1a1a1a';
-    var col2 = c2 >= 2 ? '#4a2e00' : c2 === 1 ? '#c49000' : '#555';
-    html2 += '<div class="fchip" style="background:'+bg2+';color:'+col2+'">&#9733;'+s+'<span class="fx">'+c2+'x</span></div>';
+  document.getElementById('fnums').innerHTML=html;
+  var html2='';
+  for(var i=1;i<=12;i++){
+    var c2=fs[i];
+    var bg2=c2>=3?'#f5b800':c2>=2?'#c49000':c2>=1?'#2a2200':'#1a1a1a';
+    var col2=c2>=2?'#4a2e00':c2>=1?'#c49000':'#555';
+    html2+='<div class="fchip" style="background:'+bg2+';color:'+col2+'">&#9733;'+i+'<span class="fx">'+c2+'x</span></div>';
   }
-  document.getElementById('fstars').innerHTML = html2;
-
-  // Top 5 calientes
-  var sorted = Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
-  document.getElementById('ftop').innerHTML = sorted.slice(0,5).map(function(x){
-    return '<div class="topchip"><div class="tn" style="color:var(--red)">'+x.n+'</div><div class="tc" style="color:var(--muted)">'+x.c+' veces</div></div>';
-  }).join('');
-
-  // Top 5 frios
-  var sorted2 = Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return a.c-b.c||a.n-b.n;});
-  document.getElementById('fbot').innerHTML = sorted2.slice(0,5).map(function(x){
-    return '<div class="topchip"><div class="tn" style="color:#5bb3e8">'+x.n+'</div><div class="tc" style="color:var(--muted)">'+x.c+' veces</div></div>';
-  }).join('');
+  document.getElementById('fstars').innerHTML=html2;
+  var sorted=Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
+  document.getElementById('ftop').innerHTML=sorted.slice(0,5).map(function(x){return '<div class="topchip"><div class="tn" style="color:var(--red)">'+x.n+'</div><div class="tc">'+x.c+' veces</div></div>';}).join('');
+  var sorted2=Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return a.c-b.c||a.n-b.n;});
+  document.getElementById('fbot').innerHTML=sorted2.slice(0,5).map(function(x){return '<div class="topchip"><div class="tn" style="color:var(--blue)">'+x.n+'</div><div class="tc">'+x.c+' veces</div></div>';}).join('');
+  // Suma estadistica
+  var sumas=DATA.sorteos.map(function(s){return s.nums.reduce(function(a,b){return a+b;},0);});
+  var avg=Math.round(sumas.reduce(function(a,b){return a+b;},0)/sumas.length);
+  var min=Math.min.apply(null,sumas), max=Math.max.apply(null,sumas);
+  document.getElementById('fsuma').innerHTML='Media historica: <strong style="color:var(--text)">'+avg+'</strong><br>Rango optimo recomendado: <strong style="color:#22c55e">95 — 175</strong><br>Minimo registrado: '+min+' · Maximo: '+max+'<br><span style="font-size:10px">Las combinaciones generadas muestran su suma para que puedas elegir las que caen en el rango optimo.</span>';
 }
 
-async function init() {
-  try {
-    var data = await loadData();
-    SORTEOS = data.sorteos;
-    loaded = true;
-    document.getElementById('dot').className = 'dot green';
-    document.getElementById('stxt').textContent = 'Actualizado ' + data.actualizado + ' (' + SORTEOS.length + ' sorteos)';
-    document.getElementById('bote').textContent = 'Bote ' + (data.bote || '—');
-    document.getElementById('gbtn').disabled = false;
-    document.getElementById('gbtn').textContent = 'Generar mis 2 combinaciones';
-    if (data.fuente) document.getElementById('src').textContent = 'Fuente: ' + data.fuente + ' · ' + data.actualizado;
+// ---- PARES ----
+function buildPares(){
+  if(!DATA.topPares||!DATA.topPares.length){
+    document.getElementById('pares-list').innerHTML='<div style="color:var(--muted);font-size:12px;padding:10px 0">No hay datos de pares todavia. Ejecuta el workflow de nuevo.</div>';
+    return;
+  }
+  var html=DATA.topPares.map(function(p){
+    var nums=p.par.split('-');
+    var b=nums.map(function(n){return '<span class="ball bh" style="width:28px;height:28px;font-size:11px">'+n+'</span>';}).join('');
+    return '<div class="par-chip"><div class="par-balls">'+b+'</div><span style="font-size:11px;color:var(--text)">'+nums[0]+' y '+nums[1]+'</span><span class="par-count">'+p.c+'x juntos</span></div>';
+  }).join('');
+  document.getElementById('pares-list').innerHTML=html;
+}
+
+// ---- VERIFICADOR ----
+function verificar(){
+  if(!DATA||!DATA.sorteos.length) return;
+  var ultimo=DATA.sorteos[0];
+  var vals=[+document.getElementById('v1').value,+document.getElementById('v2').value,+document.getElementById('v3').value,+document.getElementById('v4').value,+document.getElementById('v5').value];
+  var svals=[+document.getElementById('vs1').value,+document.getElementById('vs2').value];
+  if(vals.some(function(v){return !v||v<1||v>50;})||svals.some(function(v){return !v||v<1||v>12;})){
+    document.getElementById('vresult').innerHTML='<div class="vresult"><p style="color:var(--muted);font-size:12px">Introduce todos los numeros correctamente (1-50 y soles 1-12).</p></div>';
+    return;
+  }
+  var aciertos=vals.filter(function(v){return ultimo.nums.indexOf(v)>=0;}).length;
+  var soles=svals.filter(function(v){return ultimo.stars.indexOf(v)>=0;}).length;
+  var premio=getPremio(aciertos,soles);
+  var isJackpot=aciertos===5&&soles===2;
+  document.getElementById('vresult').innerHTML='<div class="vresult'+(isJackpot?' vjackpot':'')+'">'+
+    '<div style="font-size:11px;color:var(--muted);margin-bottom:8px">Comparado con: <strong style="color:var(--text)">'+ultimo.fecha+'</strong></div>'+
+    '<div style="font-size:13px;margin-bottom:6px">Numeros acertados: <strong style="color:'+(aciertos>=3?'#22c55e':'var(--text)')+'">'+aciertos+' de 5</strong></div>'+
+    '<div style="font-size:13px;margin-bottom:8px">Soles acertados: <strong style="color:'+(soles===2?'#22c55e':'var(--text)')+'">'+soles+' de 2</strong></div>'+
+    '<div style="font-size:14px;font-weight:500;color:'+(premio.gana?'#22c55e':'var(--muted)')+'">'+premio.txt+'</div>'+
+    '</div>';
+}
+
+function getPremio(a,s){
+  if(a===5&&s===2) return {gana:true,txt:'&#x1F3C6; JACKPOT!'};
+  if(a===5&&s===1) return {gana:true,txt:'&#x1F4B0; 2a categoria'};
+  if(a===5&&s===0) return {gana:true,txt:'&#x1F4B0; 3a categoria'};
+  if(a===4&&s===2) return {gana:true,txt:'&#x1F4B0; 4a categoria'};
+  if(a===4&&s===1) return {gana:true,txt:'&#x1F4B0; 5a categoria'};
+  if(a===4&&s===0) return {gana:true,txt:'&#x1F4B0; 6a categoria'};
+  if(a===3&&s===2) return {gana:true,txt:'&#x1F4B0; 7a categoria'};
+  if(a===3&&s===1) return {gana:true,txt:'&#x1F4B0; 8a categoria'};
+  if(a===2&&s===2) return {gana:true,txt:'&#x1F4B0; 9a categoria'};
+  if(a===3&&s===0) return {gana:true,txt:'&#x1F4B0; 10a categoria'};
+  if(a===1&&s===2) return {gana:true,txt:'&#x1F4B0; 11a categoria'};
+  if(a===2&&s===1) return {gana:true,txt:'&#x1F4B0; 12a categoria'};
+  return {gana:false,txt:'Sin premio esta vez'};
+}
+
+// ---- INFO / CUENTA ATRAS ----
+function getProxSorteo(){
+  var now=new Date();
+  var d=new Date(now);
+  // Buscar proximo martes(2) o viernes(5) a las 21:00
+  for(var i=0;i<=7;i++){
+    var t=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,21,0,0);
+    if((t.getDay()===2||t.getDay()===5)&&t>now) return t;
+  }
+  return null;
+}
+
+function updateCountdown(){
+  var prox=getProxSorteo();
+  if(!prox){document.getElementById('countdown').textContent='';return;}
+  var diff=prox-new Date();
+  if(diff<=0){document.getElementById('countdown').textContent='Sorteo en curso';return;}
+  var h=Math.floor(diff/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var dias=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
+  var txt=h>=24?(Math.floor(h/24)+'d '+(h%24)+'h'):h+'h '+String(m).padStart(2,'0')+'m';
+  document.getElementById('countdown').textContent=dias[prox.getDay()]+' '+txt;
+}
+
+function buildInfo(){
+  var prox=getProxSorteo();
+  if(prox){
+    var dias=['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+    var meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    document.getElementById('prox-info').innerHTML=
+      '<div class="proxrow"><span>Proximo sorteo</span><strong>'+dias[prox.getDay()]+' '+prox.getDate()+' '+meses[prox.getMonth()]+'</strong></div>'+
+      '<div class="proxrow"><span>Hora</span><strong>21:00h</strong></div>'+
+      '<div class="proxrow"><span>Bote estimado</span><strong style="color:var(--gold)">'+(DATA?DATA.bote:'...')+'</strong></div>';
+  }
+  if(DATA){
+    document.getElementById('datos-info').innerHTML=
+      'Sorteos analizados: <strong style="color:var(--text)">'+DATA.sorteos.length+'</strong><br>'+
+      'Ultima actualizacion: <strong style="color:var(--text)">'+DATA.actualizado+'</strong><br>'+
+      'Fuente: <strong style="color:var(--text)">'+DATA.fuente+'</strong><br>'+
+      'Actualizacion automatica: <strong style="color:#22c55e">Martes y Viernes 21:00h</strong>';
+  }
+}
+
+// ---- INIT ----
+async function init(){
+  try{
+    DATA=await loadData();
+    loaded=true;
+    document.getElementById('dot').className='dot green';
+    document.getElementById('stxt').textContent='Actualizado '+DATA.actualizado+' ('+DATA.sorteos.length+' sorteos)';
+    document.getElementById('bote').textContent='Bote '+(DATA.bote||'—');
+    document.getElementById('gbtn').disabled=false;
+    document.getElementById('gbtn').textContent='Generar mis 2 combinaciones';
     buildHist();
     buildFreq();
+    buildPares();
+    buildInfo();
     generar();
-  } catch(e) {
-    document.getElementById('dot').className = 'dot grey';
-    document.getElementById('stxt').textContent = 'Error al cargar datos';
-    document.getElementById('gbtn').textContent = 'Reintentar';
-    document.getElementById('gbtn').disabled = false;
-    document.getElementById('gbtn').onclick = init;
+    updateCountdown();
+    setInterval(updateCountdown,60000);
+  }catch(e){
+    document.getElementById('dot').className='dot grey';
+    document.getElementById('stxt').textContent='Error al cargar datos';
+    document.getElementById('gbtn').textContent='Reintentar';
+    document.getElementById('gbtn').disabled=false;
+    document.getElementById('gbtn').onclick=init;
   }
 }
-
 init();
 </script>
 </body>
