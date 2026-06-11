@@ -2,7 +2,7 @@
   "bote": "45 millones €",
   "sorteos": [
     {
-      "fecha": "undefined NaN undefined NaN",
+      "fecha": "[object Object]",
       "nums": [
         1,
         14,
