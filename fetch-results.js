@@ -26,24 +26,21 @@ function get(url) {
 var DIAS = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
 var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
-function formatFecha(val) {
-  if (!val) return '—';
-  var d;
-  // Formato DD.MM.YYYY
-  if (typeof val === 'string' && val.match(/^\d{2}\.\d{2}\.\d{4}$/)) {
-    var p = val.split('.');
-    d = new Date(+p[2], +p[1]-1, +p[0]);
+function formatFechaLottoland(dateObj) {
+  // dateObj = {day:9, month:6, year:2026, ...}
+  if (!dateObj || !dateObj.day) return '—';
+  var d = new Date(dateObj.year, dateObj.month - 1, dateObj.day);
+  return DIAS[d.getDay()] + ' ' + dateObj.day + ' ' + MESES[dateObj.month - 1] + ' ' + dateObj.year;
+}
+
+function parseSorteoLottoland(d) {
+  var fecha = formatFechaLottoland(d.date);
+  var nums = (d.numbers || []).map(Number).sort(function(a,b){return a-b;});
+  var stars = (d.euroNumbers || []).map(Number).sort(function(a,b){return a-b;});
+  if (nums.length === 5 && stars.length === 2) {
+    return {fecha: fecha, nums: nums, stars: stars};
   }
-  // Formato timestamp numero
-  else if (typeof val === 'number') {
-    d = new Date(val > 9999999999 ? val : val * 1000);
-  }
-  // Formato ISO o cualquier string fecha
-  else {
-    d = new Date(val);
-  }
-  if (isNaN(d.getTime())) return String(val);
-  return DIAS[d.getDay()] + ' ' + d.getDate() + ' ' + MESES[d.getMonth()] + ' ' + d.getFullYear();
+  return null;
 }
 
 async function fetchResults() {
@@ -52,81 +49,77 @@ async function fetchResults() {
   var sorteos = [];
   var bote = null;
 
-  // FUENTE 1: API JSON de Lottoland
+  // PASO 1: Obtener ultimo sorteo + bote de Lottoland
   try {
-    console.log('Intentando API Lottoland...');
     var raw = await get('https://media.lottoland.com/api/drawings/euroJackpot');
-    console.log('Lottoland raw (primeros 500): ' + raw.substring(0, 500));
     var data = JSON.parse(raw);
 
-    // Explorar estructura para encontrar los sorteos
-    var drawings = [];
-    if (Array.isArray(data)) drawings = data;
-    else if (Array.isArray(data.drawings)) drawings = data.drawings;
-    else if (Array.isArray(data.results)) drawings = data.results;
-    else if (data.last) drawings = [data.last];
-    else {
-      // Buscar el primer array dentro del objeto
-      var keys = Object.keys(data);
-      for (var k = 0; k < keys.length; k++) {
-        if (Array.isArray(data[keys[k]])) { drawings = data[keys[k]]; break; }
-      }
-    }
-
-    console.log('Drawings encontrados: ' + drawings.length);
-    if (drawings.length > 0) console.log('Primer drawing: ' + JSON.stringify(drawings[0]).substring(0, 300));
-
-    drawings.slice(0, 10).forEach(function(d) {
-      // Fecha — probar varios campos posibles
-      var fechaRaw = d.date || d.drawDate || d.draw_date || d.drawOn || d.gameDate || null;
-      var fecha = formatFecha(fechaRaw);
-
-      // Numeros principales
-      var nums = [];
-      if (Array.isArray(d.numbers)) nums = d.numbers.map(Number);
-      else if (Array.isArray(d.winningNumbers)) nums = d.winningNumbers.map(Number);
-      else if (Array.isArray(d.mainNumbers)) nums = d.mainNumbers.map(Number);
-      else if (d.primary && Array.isArray(d.primary)) nums = d.primary.map(Number);
-
-      // Soles / estrellas
-      var stars = [];
-      if (Array.isArray(d.euroNumbers)) stars = d.euroNumbers.map(Number);
-      else if (Array.isArray(d.bonusNumbers)) stars = d.bonusNumbers.map(Number);
-      else if (Array.isArray(d.stars)) stars = d.stars.map(Number);
-      else if (Array.isArray(d.secondary)) stars = d.secondary.map(Number);
-      else if (d.additionalNumbers && Array.isArray(d.additionalNumbers)) stars = d.additionalNumbers.map(Number);
-
-      if (nums.length === 5 && stars.length === 2) {
-        sorteos.push({
-          fecha: fecha,
-          nums: nums.sort(function(a,b){return a-b;}),
-          stars: stars.sort(function(a,b){return a-b;})
-        });
-      }
-    });
-
-    // Bote
-    if (data.jackpot) {
-      var j = typeof data.jackpot === 'object' ? (data.jackpot.amount || data.jackpot.value || 0) : data.jackpot;
-      var mill = Math.round(j / 1000000);
+    // Bote: jackpot es string con millones "35"
+    if (data.last && data.last.jackpot) {
+      var mill = parseInt(data.last.jackpot);
       if (mill >= 10 && mill <= 120) bote = mill + ' millones \u20ac';
     }
-    if (!bote && data.nextJackpot) {
-      var j2 = typeof data.nextJackpot === 'object' ? (data.nextJackpot.amount || data.nextJackpot.value || 0) : data.nextJackpot;
-      var mill2 = Math.round(j2 / 1000000);
+    // Tambien puede estar en marketingJackpot del proximo
+    if (!bote && data.next && data.next.jackpot) {
+      var mill2 = parseInt(data.next.jackpot);
       if (mill2 >= 10 && mill2 <= 120) bote = mill2 + ' millones \u20ac';
     }
-    console.log('Lottoland: ' + sorteos.length + ' sorteos, bote: ' + (bote||'no'));
+
+    // Ultimo sorteo
+    if (data.last) {
+      var s = parseSorteoLottoland(data.last);
+      if (s) sorteos.push(s);
+    }
+    console.log('Lottoland: 1 sorteo obtenido, bote=' + (bote||'no'));
   } catch(e) {
     console.log('Lottoland error: ' + e.message);
+  }
+
+  // PASO 2: Obtener historial de los ultimos 10 sorteos desde combinacionganadora.com
+  try {
+    var html = await get('https://www.combinacionganadora.com/eurojackpot/');
+    // Buscar patron: "1,14,22,39,48. Soles: 8,11"
+    var patRe = /(\d{1,2}),(\d{1,2}),(\d{1,2}),(\d{1,2}),(\d{1,2})\.\s*Soles:\s*(\d{1,2}),(\d{1,2})/g;
+    // Fechas: "martes 9 de junio de 2026" o "viernes 6 de junio de 2026"
+    var fechaRe = /(lunes|martes|mi\u00e9rcoles|jueves|viernes|s\u00e1bado|domingo)\s+(\d{1,2})\s+de\s+(\w+)\s+de\s+(\d{4})/gi;
+    var mesesMap = {enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11};
+    var diasMap = {lunes:'Lun',martes:'Mar','mi\u00e9rcoles':'Mie',miercoles:'Mie',jueves:'Jue',viernes:'Vie','s\u00e1bado':'Sab',sabado:'Sab',domingo:'Dom'};
+
+    var fechas = [];
+    var fm;
+    while ((fm = fechaRe.exec(html)) !== null) {
+      var mes = mesesMap[fm[3].toLowerCase()];
+      if (mes !== undefined) {
+        var d2 = new Date(+fm[4], mes, +fm[2]);
+        var diaKey = fm[1].toLowerCase().replace(/\u00e9/g,'e').replace(/\u00e1/g,'a');
+        fechas.push((diasMap[diaKey]||fm[1].slice(0,3)) + ' ' + fm[2] + ' ' + MESES[mes] + ' ' + fm[4]);
+      }
+      if (fechas.length >= 10) break;
+    }
+
+    var pm;
+    var idx = 0;
+    while ((pm = patRe.exec(html)) !== null && sorteos.length < 10) {
+      var nums = [+pm[1],+pm[2],+pm[3],+pm[4],+pm[5]].sort(function(a,b){return a-b;});
+      var stars = [+pm[6],+pm[7]].sort(function(a,b){return a-b;});
+      var fecha = fechas[idx] || todayStr;
+      // Evitar duplicar el ultimo sorteo que ya tenemos de Lottoland
+      var yaExiste = sorteos.some(function(s){return s.nums.join()==nums.join();});
+      if (!yaExiste) {
+        sorteos.push({fecha: fecha, nums: nums, stars: stars});
+      }
+      idx++;
+    }
+    console.log('combinacionganadora: total sorteos=' + sorteos.length);
+  } catch(e) {
+    console.log('combinacionganadora error: ' + e.message);
   }
 
   // BOTE desde juegosonce si no lo tenemos
   if (!bote) {
     try {
       var h2 = await get('https://www.juegosonce.es/eurojackpot');
-      var bm = h2.match(/Eurojackpot[.\s\n\r]{1,20}([\d.]+)\s*\u20ac/);
-      if (!bm) bm = h2.match(/([\d]+\.[\d]{3}\.[\d]{3})\s*\u20ac/);
+      var bm = h2.match(/([\d]+\.[\d]{3}\.[\d]{3})\s*\u20ac/);
       if (bm) {
         var euros = parseInt(bm[1].replace(/\./g,''));
         if (euros >= 10000000 && euros <= 120000000)
@@ -135,10 +128,10 @@ async function fetchResults() {
     } catch(e) { console.log('bote juegosonce error: ' + e.message); }
   }
 
-  // RESPALDO si todo falla
-  if (sorteos.length === 0) {
-    console.log('Usando respaldo');
-    sorteos.push(
+  // RESPALDO si no hay suficientes sorteos
+  if (sorteos.length < 5) {
+    console.log('Completando con respaldo...');
+    var respaldo = [
       {fecha:'Mar 9 jun 2026',nums:[1,14,22,39,48],stars:[8,11]},
       {fecha:'Vie 6 jun 2026',nums:[21,23,44,47,50],stars:[1,7]},
       {fecha:'Mar 2 jun 2026',nums:[2,36,38,40,46],stars:[7,8]},
@@ -149,7 +142,12 @@ async function fetchResults() {
       {fecha:'Mar 28 abr 2026',nums:[19,20,41,43,46],stars:[5,7]},
       {fecha:'Vie 24 abr 2026',nums:[6,21,29,39,44],stars:[1,5]},
       {fecha:'Mar 21 abr 2026',nums:[31,32,36,39,47],stars:[7,8]}
-    );
+    ];
+    respaldo.forEach(function(r) {
+      if (sorteos.length < 10 && !sorteos.some(function(s){return s.nums.join()==r.nums.join();})) {
+        sorteos.push(r);
+      }
+    });
   }
 
   // Calcular pares
@@ -162,17 +160,17 @@ async function fetchResults() {
       }
     }
   });
-  var topPares = Object.keys(pares).map(function(k){return{par:k,c:pares[k]};}).sort(function(a,b){return b.c-a.c;}).slice(0,10);
+  var topPares=Object.keys(pares).map(function(k){return{par:k,c:pares[k]};}).sort(function(a,b){return b.c-a.c;}).slice(0,10);
 
   var result = {
     bote: bote || '45 millones \u20ac',
     sorteos: sorteos.slice(0,10),
     topPares: topPares,
-    fuente: 'lottoland API + juegosonce.es',
+    fuente: 'lottoland + combinacionganadora.com',
     actualizado: todayStr
   };
   fs.writeFileSync('data.json', JSON.stringify(result, null, 2));
-  console.log('OK: bote=' + result.bote + ' sorteos=' + sorteos.length);
+  console.log('FINAL: bote=' + result.bote + ' sorteos=' + sorteos.length);
 }
 
 fetchResults().catch(function(err) {
