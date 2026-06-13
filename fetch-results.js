@@ -27,15 +27,14 @@ var DIAS = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
 var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
 function formatFechaObj(dateObj) {
-  // dateObj = {day:9, month:6, year:2026}
   if (!dateObj || typeof dateObj !== 'object') return String(dateObj);
-  var day = dateObj.day;
-  var month = dateObj.month;
-  var year = dateObj.year;
+  var day = dateObj.day, month = dateObj.month, year = dateObj.year;
   if (!day || !month || !year) return JSON.stringify(dateObj);
   var d = new Date(year, month - 1, day);
   return DIAS[d.getDay()] + ' ' + day + ' ' + MESES[month - 1] + ' ' + year;
 }
+
+var MAX_SORTEOS = 30;
 
 async function fetchResults() {
   var today = new Date();
@@ -43,7 +42,7 @@ async function fetchResults() {
   var ultimoSorteo = null;
   var bote = null;
 
-  // PASO 1: Ultimo sorteo y bote desde Lottoland API
+  // PASO 1: Ultimo sorteo + bote desde Lottoland API
   try {
     var raw = await get('https://media.lottoland.com/api/drawings/euroJackpot');
     var data = JSON.parse(raw);
@@ -56,7 +55,6 @@ async function fetchResults() {
         ultimoSorteo = {fecha: fecha, nums: nums, stars: stars};
         console.log('Ultimo sorteo: ' + fecha + ' nums=' + nums + ' stars=' + stars);
       }
-      // Bote del proximo sorteo
       if (data.next && data.next.jackpot) {
         var mill = parseInt(data.next.jackpot);
         if (mill >= 10 && mill <= 120) bote = mill + ' millones \u20ac';
@@ -71,8 +69,17 @@ async function fetchResults() {
     console.log('Lottoland error: ' + e.message);
   }
 
-  // PASO 2: Construir historial — el ultimo real + 9 anteriores conocidos
-  // Estos datos se actualizarán manualmente cada vez que el respaldo quede desfasado
+  // PASO 2: Cargar historial existente del data.json anterior (acumulativo)
+  var sorteosExistentes = [];
+  try {
+    var prev = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+    if (Array.isArray(prev.sorteos)) sorteosExistentes = prev.sorteos;
+    console.log('Sorteos existentes en data.json: ' + sorteosExistentes.length);
+  } catch(e) {
+    console.log('No hay data.json previo, se creara desde cero');
+  }
+
+  // Historial base de respaldo (15 sorteos conocidos, para arrancar el historial de 30)
   var historialBase = [
     {fecha:'Vie 6 jun 2026',nums:[21,23,44,47,50],stars:[1,7]},
     {fecha:'Mar 2 jun 2026',nums:[2,36,38,40,46],stars:[7,8]},
@@ -83,28 +90,45 @@ async function fetchResults() {
     {fecha:'Mar 28 abr 2026',nums:[19,20,41,43,46],stars:[5,7]},
     {fecha:'Vie 24 abr 2026',nums:[6,21,29,39,44],stars:[1,5]},
     {fecha:'Mar 21 abr 2026',nums:[31,32,36,39,47],stars:[7,8]},
-    {fecha:'Vie 17 abr 2026',nums:[16,31,35,43,44],stars:[2,9]}
+    {fecha:'Vie 17 abr 2026',nums:[16,31,35,43,44],stars:[2,9]},
+    {fecha:'Mar 14 abr 2026',nums:[13,22,32,46,47],stars:[6,7]},
+    {fecha:'Vie 10 abr 2026',nums:[1,6,11,18,48],stars:[10,12]},
+    {fecha:'Mar 7 abr 2026',nums:[2,4,16,23,27],stars:[5,8]},
+    {fecha:'Vie 3 abr 2026',nums:[9,10,18,22,37],stars:[1,11]},
+    {fecha:'Mar 31 mar 2026',nums:[5,15,18,20,35],stars:[7,8]}
   ];
 
-  var sorteos = [];
+  // Construir nueva lista: empezar con existentes o base
+  var base = sorteosExistentes.length > 0 ? sorteosExistentes : historialBase;
+  var sorteos = base.slice();
 
-  // Poner el ultimo sorteo real primero
+  // Si tenemos un sorteo nuevo de Lottoland y no esta ya en la lista, añadirlo al principio
   if (ultimoSorteo) {
-    sorteos.push(ultimoSorteo);
-    // Añadir los del historial que no sean el mismo
+    var yaExiste = sorteos.some(function(s){ return s.nums.join() === ultimoSorteo.nums.join() && s.stars.join() === ultimoSorteo.stars.join(); });
+    if (!yaExiste) {
+      sorteos.unshift(ultimoSorteo);
+      console.log('Nuevo sorteo añadido al historial: ' + ultimoSorteo.fecha);
+    } else {
+      console.log('El sorteo ya estaba en el historial, no se duplica');
+    }
+  }
+
+  // Limitar a MAX_SORTEOS
+  sorteos = sorteos.slice(0, MAX_SORTEOS);
+
+  // Si por algun motivo nos quedamos cortos, completar con base sin duplicar
+  if (sorteos.length < MAX_SORTEOS) {
     historialBase.forEach(function(h) {
-      if (sorteos.length < 10 && h.nums.join() !== ultimoSorteo.nums.join()) {
+      if (sorteos.length < MAX_SORTEOS && !sorteos.some(function(s){return s.nums.join()===h.nums.join() && s.stars.join()===h.stars.join();})) {
         sorteos.push(h);
       }
     });
-  } else {
-    // Si Lottoland falló usar todo el historial base
-    sorteos = historialBase.slice(0, 10);
   }
 
-  // Calcular pares
+  // Calcular pares (sobre ultimos 30 para que sea representativo)
+  var ult30 = sorteos.slice(0, 30);
   var pares = {};
-  sorteos.forEach(function(s) {
+  ult30.forEach(function(s) {
     for (var i = 0; i < s.nums.length; i++) {
       for (var j = i+1; j < s.nums.length; j++) {
         var k = s.nums[i] + '-' + s.nums[j];
@@ -115,8 +139,8 @@ async function fetchResults() {
   var topPares = Object.keys(pares).map(function(k){return{par:k,c:pares[k]};}).sort(function(a,b){return b.c-a.c;}).slice(0,10);
 
   var result = {
-    bote: bote || '45 millones \u20ac',
-    sorteos: sorteos.slice(0, 10),
+    bote: bote || (sorteosExistentes.length ? JSON.parse(fs.readFileSync('data.json','utf8')).bote : '45 millones \u20ac') || '45 millones \u20ac',
+    sorteos: sorteos,
     topPares: topPares,
     fuente: 'lottoland.com',
     actualizado: todayStr

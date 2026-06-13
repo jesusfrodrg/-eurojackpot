@@ -112,7 +112,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <!-- HISTORIAL -->
 <div class="page" id="page-hist">
-  <div class="info-box">Resultados actualizados cada <strong>martes y viernes a las 21h</strong> automaticamente.</div>
+  <div class="info-box">Historial de los <strong>ultimos 30 sorteos</strong>. Se actualiza cada <strong>martes y viernes a las 21h</strong> automaticamente.</div>
   <div id="hlist"></div>
   <p class="src" id="src"></p>
 </div>
@@ -120,10 +120,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <!-- FRECUENCIAS -->
 <div class="page" id="page-freq">
   <div class="leyenda">
-    <div class="litem"><div class="ldot" style="background:var(--red)"></div>3+ veces</div>
-    <div class="litem"><div class="ldot" style="background:#8a0012"></div>2 veces</div>
-    <div class="litem"><div class="ldot" style="background:var(--bg3)"></div>1 vez</div>
-    <div class="litem"><div class="ldot" style="background:#0d1f2d;border:0.5px solid #1a3a52"></div>0 veces</div>
+    <div class="litem"><div class="ldot" style="background:var(--red)"></div>Muy caliente</div>
+    <div class="litem"><div class="ldot" style="background:#8a0012"></div>Caliente</div>
+    <div class="litem"><div class="ldot" style="background:var(--bg3)"></div>Normal</div>
+    <div class="litem"><div class="ldot" style="background:#0d1f2d;border:0.5px solid #1a3a52"></div>Nunca sale (frio)</div>
   </div>
   <div id="fbase-label" class="info-box"></div>
   <div class="ftitle">Numeros (1-50)</div>
@@ -216,15 +216,19 @@ function pick(n,pool){return shuffle(pool).slice(0,n).sort(function(a,b){return 
 
 // ---- GENERAR ----
 function genCombo() {
-  var f = calcFreq(10);
+  var n = Math.min(30, DATA.sorteos.length);
+  var f = calcFreq(n);
   var fn=f.fn, fs=f.fs;
   var all=Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
   var allS=Object.keys(fs).map(function(k){return{n:+k,c:fs[k]};}).sort(function(a,b){return b.c-a.c||a.n-b.n;});
-  var hot=all.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
-  var mid=all.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
+  // Umbrales proporcionales: con n sorteos, media esperada = n/10 para numeros, n/6 para soles
+  var hotThresh = Math.max(2, Math.round(n/10)+1);
+  var hotThreshS = Math.max(2, Math.round(n/6)+1);
+  var hot=all.filter(function(x){return x.c>=hotThresh;}).map(function(x){return x.n;});
+  var mid=all.filter(function(x){return x.c>0 && x.c<hotThresh;}).map(function(x){return x.n;});
   var cold=all.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
-  var hotS=allS.filter(function(x){return x.c>=2;}).map(function(x){return x.n;});
-  var midS=allS.filter(function(x){return x.c===1;}).map(function(x){return x.n;});
+  var hotS=allS.filter(function(x){return x.c>=hotThreshS;}).map(function(x){return x.n;});
+  var midS=allS.filter(function(x){return x.c>0 && x.c<hotThreshS;}).map(function(x){return x.n;});
   var coldS=allS.filter(function(x){return x.c===0;}).map(function(x){return x.n;});
   var nums, stars;
   if(mode==='hot'){
@@ -246,10 +250,12 @@ function genCombo() {
 }
 
 function renderCombo(c, label) {
-  var f=calcFreq(10);
-  var nb=c.nums.map(function(n){
-    var cls=f.fn[n]>=2?'bh':f.fn[n]===1?'bn':'bc';
-    return '<span class="ball '+cls+'" title="'+f.fn[n]+'x en 10 sorteos">'+n+'</span>';
+  var n = Math.min(30, DATA.sorteos.length);
+  var f=calcFreq(n);
+  var hotThresh = Math.max(2, Math.round(n/10)+1);
+  var nb=c.nums.map(function(num){
+    var cls=f.fn[num]>=hotThresh?'bh':f.fn[num]>0?'bn':'bc';
+    return '<span class="ball '+cls+'" title="'+f.fn[num]+'x en '+n+' sorteos">'+num+'</span>';
   }).join('');
   var sb=c.stars.map(function(s){return '<span class="ball bs">&#9733;'+s+'</span>';}).join('');
   var sumaOk = c.suma>=95&&c.suma<=175;
@@ -291,15 +297,19 @@ function buildHist(){
 
 // ---- FRECUENCIAS ----
 function buildFreq(){
-  var n=DATA.sorteos.length;
-  document.getElementById('fbase-label').innerHTML='Analisis basado en los <strong>'+n+' ultimos sorteos</strong>. Cuantos mas datos, mas fiable.';
-  var f=calcFreq();
+  var n=Math.min(30, DATA.sorteos.length);
+  document.getElementById('fbase-label').innerHTML='Analisis basado en los <strong>ultimos '+n+' sorteos</strong> disponibles.';
+  var f=calcFreq(n);
   var fn=f.fn, fs=f.fs;
+  var hotT = Math.max(2, Math.round(n/10)+1);
+  var midT = Math.max(1, Math.round(n/20)+1);
+  var hotTS = Math.max(2, Math.round(n/6)+1);
+  var midTS = Math.max(1, Math.round(n/12)+1);
   var html='';
   for(var i=1;i<=50;i++){
     var c=fn[i];
-    var bg=c>=3?'#C0001A':c>=2?'#8a0012':c>=1?'#1e1e1e':'#0d1f2d';
-    var col=c>=2?'#fff':c>=1?'#aaa':'#5bb3e8';
+    var bg=c>=hotT?'#C0001A':c>=midT?'#8a0012':c>=1?'#1e1e1e':'#0d1f2d';
+    var col=c>=midT?'#fff':c>=1?'#aaa':'#5bb3e8';
     var brd=c===0?'border:0.5px solid #1a3a52;':'';
     html+='<div class="fchip" style="background:'+bg+';color:'+col+';'+brd+'">'+i+'<span class="fx">'+c+'x</span></div>';
   }
@@ -307,8 +317,8 @@ function buildFreq(){
   var html2='';
   for(var i=1;i<=12;i++){
     var c2=fs[i];
-    var bg2=c2>=3?'#f5b800':c2>=2?'#c49000':c2>=1?'#2a2200':'#1a1a1a';
-    var col2=c2>=2?'#4a2e00':c2>=1?'#c49000':'#555';
+    var bg2=c2>=hotTS?'#f5b800':c2>=midTS?'#c49000':c2>=1?'#2a2200':'#1a1a1a';
+    var col2=c2>=midTS?'#4a2e00':c2>=1?'#c49000':'#555';
     html2+='<div class="fchip" style="background:'+bg2+';color:'+col2+'">&#9733;'+i+'<span class="fx">'+c2+'x</span></div>';
   }
   document.getElementById('fstars').innerHTML=html2;
@@ -316,11 +326,11 @@ function buildFreq(){
   document.getElementById('ftop').innerHTML=sorted.slice(0,5).map(function(x){return '<div class="topchip"><div class="tn" style="color:var(--red)">'+x.n+'</div><div class="tc">'+x.c+' veces</div></div>';}).join('');
   var sorted2=Object.keys(fn).map(function(k){return{n:+k,c:fn[k]};}).sort(function(a,b){return a.c-b.c||a.n-b.n;});
   document.getElementById('fbot').innerHTML=sorted2.slice(0,5).map(function(x){return '<div class="topchip"><div class="tn" style="color:var(--blue)">'+x.n+'</div><div class="tc">'+x.c+' veces</div></div>';}).join('');
-  // Suma estadistica
+  // Suma estadistica - sobre todo el historial disponible (hasta 30)
   var sumas=DATA.sorteos.map(function(s){return s.nums.reduce(function(a,b){return a+b;},0);});
   var avg=Math.round(sumas.reduce(function(a,b){return a+b;},0)/sumas.length);
   var min=Math.min.apply(null,sumas), max=Math.max.apply(null,sumas);
-  document.getElementById('fsuma').innerHTML='Media historica: <strong style="color:var(--text)">'+avg+'</strong><br>Rango optimo recomendado: <strong style="color:#22c55e">95 — 175</strong><br>Minimo registrado: '+min+' · Maximo: '+max+'<br><span style="font-size:10px">Las combinaciones generadas muestran su suma para que puedas elegir las que caen en el rango optimo.</span>';
+  document.getElementById('fsuma').innerHTML='Media de los ultimos '+sumas.length+' sorteos: <strong style="color:var(--text)">'+avg+'</strong><br>Rango optimo recomendado: <strong style="color:#22c55e">95 — 175</strong><br>Minimo registrado: '+min+' · Maximo: '+max+'<br><span style="font-size:10px">Las combinaciones generadas muestran su suma para que puedas elegir las que caen en el rango optimo.</span>';
 }
 
 // ---- PARES ----
