@@ -1,6 +1,20 @@
 {
-  "bote": "86 millones €",
+  "bote": "10 millones €",
   "sorteos": [
+    {
+      "fecha": "Vie 26 jun 2026",
+      "nums": [
+        17,
+        25,
+        35,
+        39,
+        41
+      ],
+      "stars": [
+        5,
+        9
+      ]
+    },
     {
       "fecha": "Mar 23 jun 2026",
       "nums": [
@@ -302,14 +316,14 @@
       "c": 2
     },
     {
-      "par": "24-27",
+      "par": "17-25",
       "c": 1
     },
     {
-      "par": "24-43",
+      "par": "17-35",
       "c": 1
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "23/6/2026"
+  "actualizado": "26/6/2026"
 }
