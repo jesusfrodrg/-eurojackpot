@@ -1,6 +1,20 @@
 {
-  "bote": "10 millones €",
+  "bote": "17 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 30 jun 2026",
+      "nums": [
+        12,
+        19,
+        34,
+        44,
+        50
+      ],
+      "stars": [
+        3,
+        8
+      ]
+    },
     {
       "fecha": "Vie 26 jun 2026",
       "nums": [
@@ -288,6 +302,10 @@
       "c": 3
     },
     {
+      "par": "44-50",
+      "c": 2
+    },
+    {
       "par": "37-42",
       "c": 2
     },
@@ -316,14 +334,10 @@
       "c": 2
     },
     {
-      "par": "17-25",
-      "c": 1
-    },
-    {
-      "par": "17-35",
+      "par": "12-19",
       "c": 1
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "26/6/2026"
+  "actualizado": "30/6/2026"
 }
