@@ -1,6 +1,20 @@
 {
-  "bote": "23 millones €",
+  "bote": "32 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 7 jul 2026",
+      "nums": [
+        6,
+        16,
+        24,
+        41,
+        46
+      ],
+      "stars": [
+        2,
+        3
+      ]
+    },
     {
       "fecha": "Vie 3 jul 2026",
       "nums": [
@@ -316,6 +330,10 @@
       "c": 3
     },
     {
+      "par": "41-46",
+      "c": 2
+    },
+    {
       "par": "4-28",
       "c": 2
     },
@@ -346,12 +364,8 @@
     {
       "par": "5-35",
       "c": 2
-    },
-    {
-      "par": "32-47",
-      "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "3/7/2026"
+  "actualizado": "7/7/2026"
 }
