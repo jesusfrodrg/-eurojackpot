@@ -1,6 +1,20 @@
 {
-  "bote": "32 millones €",
+  "bote": "10 millones €",
   "sorteos": [
+    {
+      "fecha": "Vie 7 ago 2026",
+      "nums": [
+        1,
+        3,
+        6,
+        13,
+        23
+      ],
+      "stars": [
+        5,
+        7
+      ]
+    },
     {
       "fecha": "Mar 4 ago 2026",
       "nums": [
@@ -406,26 +420,16 @@
         5,
         8
       ]
-    },
-    {
-      "fecha": "Vie 3 abr 2026",
-      "nums": [
-        9,
-        10,
-        18,
-        22,
-        37
-      ],
-      "stars": [
-        1,
-        11
-      ]
     }
   ],
   "topPares": [
     {
       "par": "16-27",
       "c": 3
+    },
+    {
+      "par": "1-6",
+      "c": 2
     },
     {
       "par": "17-35",
@@ -458,12 +462,8 @@
     {
       "par": "25-45",
       "c": 2
-    },
-    {
-      "par": "4-8",
-      "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "4/8/2026"
+  "actualizado": "7/8/2026"
 }
