@@ -1,6 +1,20 @@
 {
-  "bote": "10 millones €",
+  "bote": "17 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 11 ago 2026",
+      "nums": [
+        4,
+        11,
+        12,
+        16,
+        30
+      ],
+      "stars": [
+        8,
+        9
+      ]
+    },
     {
       "fecha": "Vie 7 ago 2026",
       "nums": [
@@ -406,26 +420,12 @@
         10,
         12
       ]
-    },
-    {
-      "fecha": "Mar 7 abr 2026",
-      "nums": [
-        2,
-        4,
-        16,
-        23,
-        27
-      ],
-      "stars": [
-        5,
-        8
-      ]
     }
   ],
   "topPares": [
     {
-      "par": "16-27",
-      "c": 3
+      "par": "11-16",
+      "c": 2
     },
     {
       "par": "1-6",
@@ -465,5 +465,5 @@
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "7/8/2026"
+  "actualizado": "11/8/2026"
 }
