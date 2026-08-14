@@ -1,6 +1,20 @@
 {
-  "bote": "17 millones €",
+  "bote": "22 millones €",
   "sorteos": [
+    {
+      "fecha": "Vie 14 ago 2026",
+      "nums": [
+        5,
+        26,
+        28,
+        30,
+        40
+      ],
+      "stars": [
+        3,
+        6
+      ]
+    },
     {
       "fecha": "Mar 11 ago 2026",
       "nums": [
@@ -406,29 +420,11 @@
         6,
         7
       ]
-    },
-    {
-      "fecha": "Vie 10 abr 2026",
-      "nums": [
-        1,
-        6,
-        11,
-        18,
-        48
-      ],
-      "stars": [
-        10,
-        12
-      ]
     }
   ],
   "topPares": [
     {
       "par": "11-16",
-      "c": 2
-    },
-    {
-      "par": "1-6",
       "c": 2
     },
     {
@@ -462,8 +458,12 @@
     {
       "par": "25-45",
       "c": 2
+    },
+    {
+      "par": "4-8",
+      "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "11/8/2026"
+  "actualizado": "14/8/2026"
 }
