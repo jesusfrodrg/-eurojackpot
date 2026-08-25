@@ -1,6 +1,20 @@
 {
-  "bote": "39 millones €",
+  "bote": "10 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 25 ago 2026",
+      "nums": [
+        4,
+        5,
+        7,
+        48,
+        50
+      ],
+      "stars": [
+        4,
+        5
+      ]
+    },
     {
       "fecha": "Vie 21 ago 2026",
       "nums": [
@@ -406,26 +420,16 @@
         1,
         5
       ]
-    },
-    {
-      "fecha": "Mar 21 abr 2026",
-      "nums": [
-        31,
-        32,
-        36,
-        39,
-        47
-      ],
-      "stars": [
-        7,
-        8
-      ]
     }
   ],
   "topPares": [
     {
       "par": "25-45",
       "c": 3
+    },
+    {
+      "par": "48-50",
+      "c": 2
     },
     {
       "par": "25-35",
@@ -458,12 +462,8 @@
     {
       "par": "20-41",
       "c": 2
-    },
-    {
-      "par": "40-41",
-      "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "21/8/2026"
+  "actualizado": "25/8/2026"
 }
