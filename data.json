@@ -1,6 +1,20 @@
 {
-  "bote": "10 millones €",
+  "bote": "15 millones €",
   "sorteos": [
+    {
+      "fecha": "Vie 28 ago 2026",
+      "nums": [
+        23,
+        34,
+        39,
+        45,
+        49
+      ],
+      "stars": [
+        1,
+        4
+      ]
+    },
     {
       "fecha": "Mar 25 ago 2026",
       "nums": [
@@ -406,20 +420,6 @@
         5,
         7
       ]
-    },
-    {
-      "fecha": "Vie 24 abr 2026",
-      "nums": [
-        6,
-        21,
-        29,
-        39,
-        44
-      ],
-      "stars": [
-        1,
-        5
-      ]
     }
   ],
   "topPares": [
@@ -465,5 +465,5 @@
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "25/8/2026"
+  "actualizado": "29/8/2026"
 }
