@@ -1,6 +1,20 @@
 {
-  "bote": "31 millones €",
+  "bote": "40 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 8 sep 2026",
+      "nums": [
+        14,
+        27,
+        34,
+        36,
+        47
+      ],
+      "stars": [
+        3,
+        4
+      ]
+    },
     {
       "fecha": "Vie 4 sep 2026",
       "nums": [
@@ -406,26 +420,16 @@
         10,
         12
       ]
-    },
-    {
-      "fecha": "Vie 22 may 2026",
-      "nums": [
-        5,
-        34,
-        35,
-        42,
-        46
-      ],
-      "stars": [
-        3,
-        5
-      ]
     }
   ],
   "topPares": [
     {
       "par": "25-45",
       "c": 3
+    },
+    {
+      "par": "34-36",
+      "c": 2
     },
     {
       "par": "5-33",
@@ -456,14 +460,10 @@
       "c": 2
     },
     {
-      "par": "35-46",
-      "c": 2
-    },
-    {
-      "par": "34-42",
+      "par": "17-35",
       "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "4/9/2026"
+  "actualizado": "8/9/2026"
 }
