@@ -1,6 +1,20 @@
 {
-  "bote": "80 millones €",
+  "bote": "91 millones €",
   "sorteos": [
+    {
+      "fecha": "Vie 25 sep 2026",
+      "nums": [
+        2,
+        7,
+        10,
+        29,
+        30
+      ],
+      "stars": [
+        5,
+        10
+      ]
+    },
     {
       "fecha": "Mar 22 sep 2026",
       "nums": [
@@ -406,20 +420,6 @@
         1,
         7
       ]
-    },
-    {
-      "fecha": "Vie 12 jun 2026",
-      "nums": [
-        2,
-        4,
-        14,
-        18,
-        28
-      ],
-      "stars": [
-        9,
-        11
-      ]
     }
   ],
   "topPares": [
@@ -465,5 +465,5 @@
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "22/9/2026"
+  "actualizado": "25/9/2026"
 }
