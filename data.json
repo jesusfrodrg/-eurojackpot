@@ -1,6 +1,20 @@
 {
-  "bote": "53 millones €",
+  "bote": "64 millones €",
   "sorteos": [
+    {
+      "fecha": "Mar 10 nov 2026",
+      "nums": [
+        7,
+        15,
+        17,
+        40,
+        44
+      ],
+      "stars": [
+        5,
+        11
+      ]
+    },
     {
       "fecha": "Vie 6 nov 2026",
       "nums": [
@@ -406,26 +420,16 @@
         4,
         6
       ]
-    },
-    {
-      "fecha": "Mar 28 jul 2026",
-      "nums": [
-        11,
-        25,
-        40,
-        41,
-        45
-      ],
-      "stars": [
-        1,
-        5
-      ]
     }
   ],
   "topPares": [
     {
-      "par": "25-45",
-      "c": 3
+      "par": "7-17",
+      "c": 2
+    },
+    {
+      "par": "7-44",
+      "c": 2
     },
     {
       "par": "7-30",
@@ -458,12 +462,8 @@
     {
       "par": "29-30",
       "c": 2
-    },
-    {
-      "par": "17-35",
-      "c": 2
     }
   ],
   "fuente": "lottoland.com",
-  "actualizado": "7/11/2026"
+  "actualizado": "11/11/2026"
 }
